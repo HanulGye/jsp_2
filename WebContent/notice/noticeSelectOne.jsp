@@ -1,12 +1,11 @@
 <%@page import="com.hanul.notice.NoticeDTO"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="com.hanul.notice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	int no = Integer.parseInt(request.getParameter("no"));
 	NoticeDAO nDao = new NoticeDAO();
-	ArrayList<NoticeDTO> ar = nDao.selectList();
-	
+	NoticeDTO nDto = nDao.selectOne(no);
 %>    
 <!DOCTYPE html>
 <html>
@@ -205,6 +204,16 @@
   	margin: auto;
   	
   }
+  
+  #dButton{
+  	float: right;
+  }
+  
+  #sizeFix{
+  	width: 1124px;
+  	height: 351px;
+  }
+  
   </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -233,33 +242,28 @@
 
 <div class="container-fluid">
 	<div class="row">
+	<a href="./noticeList.jsp" class="btn btn-default active" id="dButton">Previous</a>
 		<table class="table table-hover">
 			<tr>
-				<th colspan=5 style="text-align: center">공지사항</th>
+				<th colspan=2 style="text-align: center">공지 사항</th>
 			</tr>
 			<tr>
-				<th>No.</th>
 				<th>Subject</th>
-				<th>Writer</th>
-				<th>Date</th>
-				<th>Hit</th>
+				<td><%= nDto.getSubject() %></td>
 			</tr>
-			  
-			<%for(int i=0; i<ar.size();i++){ %>
 			<tr>
-				<td><%= ar.get(i).getNo()%></td>
-				<td><a href="./noticeSelectOne.jsp?no=<%= ar.get(i).getNo()%>"><%= ar.get(i).getSubject()%></a></td>
-				<td><%= ar.get(i).getWriter()%></td>
-				<td><%= ar.get(i).getReg_date()%></td>
-				<td><%= ar.get(i).getHit()%></td>
-				
+				<th>Writer</th>
+				<td><%= nDto.getWriter() %></td>
 			</tr>
-			<%} %>
-			
+			<tr>
+				<td colspan=2><textarea id="sizeFix" readonly="readonly"><%= nDto.getContent() %></textarea></td>
+			</tr>
+			<tr>
+				<td colspan=2>
+				<a href="./noticeDeleteProcess.jsp" class="btn btn-danger" role="button"id="dButton">글 삭제</a>
+				<a href="./noticeUpdateForm.jsp" class="btn btn-warning" role="button" id="dButton">글 수정</a>
+				</td>
+			</tr>
 		</table>
 	</div>
-	<a href="./noticeWriteForm.jsp" class="btn btn-warning" role="button" style="float: right">Write</a>
-</div>
-
-</body>
-</html>
+</div>	
