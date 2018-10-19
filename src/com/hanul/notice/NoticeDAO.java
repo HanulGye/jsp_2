@@ -8,6 +8,22 @@ import java.util.ArrayList;
 import com.hanul.util.DBConnector;
 
 public class NoticeDAO {
+	//insert
+	public int insert(NoticeDTO nDto) throws Exception{
+		Connection con = DBConnector.getConnect();
+		String sql = "INSERT INTO notice VALUES(notice_seq.nextval, ?, ?, ?, sysdate, 0)";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, nDto.getSubject());
+		st.setString(2, nDto.getContent());
+		st.setString(3, nDto.getWriter());
+		
+		int result = st.executeUpdate();
+		
+		DBConnector.disConnect(st, con);
+		
+		return result;
+	}
+	
 	//selectList
 	public ArrayList<NoticeDTO> selectList() throws Exception{
 		Connection con = DBConnector.getConnect();
