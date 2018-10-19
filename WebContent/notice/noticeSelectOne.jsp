@@ -4,8 +4,14 @@
     pageEncoding="UTF-8"%>
 <%
 	int no = Integer.parseInt(request.getParameter("no"));
+	int hit = Integer.parseInt(request.getParameter("hit"));
+	hit= hit+1;
+	
 	NoticeDAO nDao = new NoticeDAO();
 	NoticeDTO nDto = nDao.selectOne(no);
+	nDao.hitAdd(hit, no);
+	
+	
 %>    
 <!DOCTYPE html>
 <html>

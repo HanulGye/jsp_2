@@ -248,7 +248,7 @@
 			<%for(int i=0; i<ar.size();i++){ %>
 			<tr>
 				<td><%= ar.get(i).getNo()%></td>
-				<td><a href="./noticeSelectOne.jsp?no=<%= ar.get(i).getNo()%>"><%= ar.get(i).getSubject()%></a></td>
+				<td><a href="./noticeSelectOne.jsp?no=<%= ar.get(i).getNo()%>&hit=<%= ar.get(i).getHit()%>"><%= ar.get(i).getSubject()%></a></td>
 				<td><%= ar.get(i).getWriter()%></td>
 				<td><%= ar.get(i).getReg_date()%></td>
 				<td><%= ar.get(i).getHit()%></td>

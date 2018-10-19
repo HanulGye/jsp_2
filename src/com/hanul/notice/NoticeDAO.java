@@ -8,6 +8,17 @@ import java.util.ArrayList;
 import com.hanul.util.DBConnector;
 
 public class NoticeDAO {
+	//hitAdd
+	public int hitAdd(int hit, int no) throws Exception{
+		Connection con = DBConnector.getConnect();
+		String sql = "UPDATE notice SET hit=? WHERE no=?";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setInt(1, hit);
+		st.setInt(2, no);
+		int result = st.executeUpdate();
+		return result;
+	}
+	
 	//delete
 	public int delete(int no) throws Exception{
 		
