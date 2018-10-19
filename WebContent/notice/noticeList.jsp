@@ -1,5 +1,12 @@
+<%@page import="com.hanul.notice.NoticeDTO"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.hanul.notice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	NoticeDAO nDao = new NoticeDAO();
+	ArrayList<NoticeDTO> ar = nDao.selectList();
+%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -218,7 +225,28 @@
 
 <div class="container-fluid">
 	<div class="row">
-		
+		<table>
+			<tr>
+				<th colspan=5>공지사항</th>
+			</tr>
+			<tr>
+				<th>No.</th>
+				<th>Subject</th>
+				<th>Writer</th>
+				<th>Date</th>
+				<th>Hit</th>
+			</tr>
+			<%for(int i=0; i<ar.size();i++){ %>
+			<tr>
+				<td><%= ar.get(i).getNo() %></td>
+				<td><%= ar.get(i).getSubject() %></td>
+				<td><%= ar.get(i).getWriter() %></td>
+				<td><%= ar.get(i).getReg_date() %></td>
+				<td><%= ar.get(i).getHit() %></td>
+			</tr>
+			<%} %>
+			
+		</table>
 	</div>
 </div>
 
