@@ -209,6 +209,10 @@
   	float: right;
   }
   
+  #dButtonL{
+  	float: left;
+  }
+  
   #sizeFix{
   	width: 1124px;
   	height: 351px;
@@ -242,8 +246,10 @@
 
 <div class="container-fluid">
 	<div class="row">
-	<a href="./noticeList.jsp" class="btn btn-default active" id="dButton">Previous</a>
 		<table class="table table-hover">
+			<tr>
+				<th colspan=2><a href="./noticeList.jsp" class="btn btn-default active" id="dButtonL">Previous</a></th>
+			</tr>
 			<tr>
 				<th colspan=2 style="text-align: center">공지 사항</th>
 			</tr>
@@ -260,8 +266,8 @@
 			</tr>
 			<tr>
 				<td colspan=2>
-				<a href="./noticeDeleteProcess.jsp" class="btn btn-danger" role="button"id="dButton">글 삭제</a>
-				<a href="./noticeUpdateForm.jsp" class="btn btn-warning" role="button" id="dButton">글 수정</a>
+				<a href="./noticeDeleteProcess.jsp?no=<%=nDto.getNo() %>" class="btn btn-danger" role="button"id="dButton">글 삭제</a>
+				<a href="./noticeUpdateForm.jsp?no=<%=nDto.getNo() %>" class="btn btn-warning" role="button" id="dButton">글 수정</a>
 				</td>
 			</tr>
 		</table>

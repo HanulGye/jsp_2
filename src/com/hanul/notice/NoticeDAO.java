@@ -8,6 +8,22 @@ import java.util.ArrayList;
 import com.hanul.util.DBConnector;
 
 public class NoticeDAO {
+	//delete
+	public int delete(int no) throws Exception{
+		
+		Connection con = DBConnector.getConnect();
+		String sql ="DELETE notice WHERE no = ?";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setInt(1, no);
+	
+		int result = st.executeUpdate();
+		
+		DBConnector.disConnect(st, con);
+		
+		return result;
+	}
+	
+	
 	//selectOne
 	public NoticeDTO selectOne(int no) throws Exception{
 		Connection con = DBConnector.getConnect();
