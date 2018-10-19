@@ -1,13 +1,5 @@
-<%@page import="com.hanul.notice.NoticeDTO"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.hanul.notice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	NoticeDAO nDao = new NoticeDAO();
-	ArrayList<NoticeDTO> ar = nDao.selectList();
-	
-%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -205,6 +197,11 @@
   	margin: auto;
   	
   }
+  
+  #dButton{
+  	float: right;
+  }
+  
   </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -233,33 +230,27 @@
 
 <div class="container-fluid">
 	<div class="row">
+	<a href="./noticeList.jsp" class="btn btn-default active" id="dButton">Previous</a>
+	<form action="./noticeWriteProcess.jsp">
 		<table class="table table-hover">
 			<tr>
-				<th colspan=5 style="text-align: center">공지사항</th>
+				<th colspan=2 style="text-align: center">공지 글 작성</th>
 			</tr>
 			<tr>
-				<th>No.</th>
 				<th>Subject</th>
-				<th>Writer</th>
-				<th>Date</th>
-				<th>Hit</th>
+				<td><input type="text" name="subject"></td>
 			</tr>
-			  
-			<%for(int i=0; i<ar.size();i++){ %>
 			<tr>
-				<td><%= ar.get(i).getNo()%></td>
-				<td><%= ar.get(i).getSubject()%></td>
-				<td><%= ar.get(i).getWriter()%></td>
-				<td><%= ar.get(i).getReg_date()%></td>
-				<td><%= ar.get(i).getHit()%></td>
-				
+				<th>Writer</th>
+				<td><input type="text" name="writer"></td>
 			</tr>
-			<%} %>
-			
+			<tr>
+				<td colspan=2><textarea name="content"></textarea></td>
+			</tr>
+			<tr>
+				<td><button type="submit" class="btn btn-warning active" id="dButton">Write</button></td>
+			</tr>
 		</table>
+	</form>
 	</div>
-	<a href="./noticeWriteForm.jsp" class="btn btn-warning" role="button" style="float: right">Write</a>
-</div>
-
-</body>
-</html>
+</div>			
