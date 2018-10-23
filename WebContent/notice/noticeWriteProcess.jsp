@@ -22,9 +22,13 @@
 	request.setAttribute("path", "./noticeList.jsp");
 	
 	
-	RequestDispatcher view = request.getRequestDispatcher("../common/result.jsp");
-	view.forward(request, response);
+	/* RequestDispatcher view = request.getRequestDispatcher("../common/result.jsp");
+	view.forward(request, response); */
 	//이 밑에 코드 써도 전달이 안됨. 이미 requestDispatcher로 넘겼기 때문에. 
+	
+	//redirect
+	response.sendRedirect("../index.jsp");
+	
 	
 %>    
 <!DOCTYPE html>
