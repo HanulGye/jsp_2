@@ -8,6 +8,25 @@ import java.util.ArrayList;
 import com.hanul.util.DBConnector;
 
 public class NoticeDAO {
+	//getCount
+	public int getCount(String kind, String search) throws Exception {
+		Connection con = DBConnector.getConnect();
+		String sql="select count(no) from notice "
+				+ "where "+kind+" like ?";
+		
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, "%"+search+"%");
+		
+		ResultSet rs = st.executeQuery();
+		rs.next();
+		int result=rs.getInt(1);
+		
+		DBConnector.disConnect(rs, st, con);
+		
+		return result;
+		
+	}
+	
 	//hitAdd
 	public int hitAdd(int hit, int no) throws Exception{
 		Connection con = DBConnector.getConnect();
@@ -75,21 +94,30 @@ public class NoticeDAO {
 	}
 	
 	//selectList
-	public ArrayList<NoticeDTO> selectList() throws Exception{
+	public ArrayList<NoticeDTO> selectList(int startRow, int lastRow, String kind, String search) throws Exception{
 		Connection con = DBConnector.getConnect();
-		String sql = "SELECT * FROM notice ORDER BY reg_date DESC";
+		String sql = "SELECT * FROM "
+				+ "(select rownum R, N.* from "
+				+ "(select no, subject, writer, reg_date, hit from notice "
+				+ "where "+kind+" like ? "
+				+ "order by no desc) N) "
+				+ "where R between ? and ?";
 		PreparedStatement st = con.prepareStatement(sql);
+		
+		st.setString(1, "%"+search+"%");
+		st.setInt(2, startRow);
+		st.setInt(3, lastRow);
+		
 		ResultSet rs = st.executeQuery();
 		NoticeDTO nDto = null;
 		ArrayList<NoticeDTO> ar = new ArrayList<>();
 		while(rs.next()) {
 			nDto = new NoticeDTO();
-			nDto.setNo(rs.getInt(1));
-			nDto.setSubject(rs.getString(2));
-			nDto.setContent(rs.getString(3));
-			nDto.setWriter(rs.getString(4));
-			nDto.setReg_date(rs.getDate(5));
-			nDto.setHit(rs.getInt(6));
+			nDto.setNo(rs.getInt("no"));
+			nDto.setSubject(rs.getString("subject"));
+			nDto.setWriter(rs.getString("writer"));
+			nDto.setReg_date(rs.getDate("reg_date"));
+			nDto.setHit(rs.getInt("hit"));
 			ar.add(nDto);
 		}
 		DBConnector.disConnect(rs, st, con);
