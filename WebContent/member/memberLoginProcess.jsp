@@ -19,17 +19,23 @@
 		response.addCookie(c);
 	}
 	
+	//client가 입력한 id와 pw에 해당하는 member가 존재하는지, 있다면 그 member 데이터를 운반할 통을 준비.
 	MemberDAO sdao = new MemberDAO();
 	mDto = sdao.selectOne(mDto);
 	
+	//로그인 활동 후, 띄워줄 메시지와 이동할 경로 미리 설정. 
 	String result = "Login Fail";
 	String path = "./memberLogin.jsp";
+	
+	//member 데이터를 저장할 세션을 마련.
 	if(mDto != null){
 		result = "Login Success";
 		path = "./memberList.jsp";
 		session.setAttribute("member", mDto);
 		session.setMaxInactiveInterval(60*10);
 	}
+	
+	//로그인 여부를 alert으로 띄워주는 것 
 	request.setAttribute("message", result);
 	request.setAttribute("path", path);
 	RequestDispatcher view = request.getRequestDispatcher("../common/result.jsp");
