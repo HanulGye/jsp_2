@@ -207,7 +207,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="./notice/noticeList.jsp">NOTICE</a></li>
-        <li><a href="#services">SERVICES</a></li>
+        <li><a href="./member/memberList.jsp">MEMBER</a></li>
         <li><a href="#portfolio">PORTFOLIO</a></li>
         <li><a href="#pricing">PRICING</a></li>
         <li><a href="#contact">CONTACT</a></li>

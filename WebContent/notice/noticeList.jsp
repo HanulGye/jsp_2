@@ -1,3 +1,4 @@
+<%@page import="com.hanul.member.MemberDTO"%>
 <%@page import="com.hanul.notice.NoticeDTO"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.hanul.notice.NoticeDAO"%>
@@ -288,7 +289,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="">NOTICE</a></li>
-        <li><a href="#services">SERVICES</a></li>
+        <li><a href="../member/memberList.jsp">MEMBER</a></li>
         <li><a href="#portfolio">PORTFOLIO</a></li>
         <li><a href="#pricing">PRICING</a></li>
         <li><a href="#contact">CONTACT</a></li>
@@ -341,8 +342,13 @@
 			  </form>
 			
 		</div>
-	
-	<a href="./noticeWriteForm.jsp" class="btn btn-warning" role="button" id="wrtieB">Write</a>
+		<%MemberDTO mDto = (MemberDTO)session.getAttribute("member"); %>
+		
+		<%	
+			if(mDto!=null && mDto.getKind().equals("T")){%>
+			<a href="./noticeWriteForm.jsp" class="btn btn-warning" role="button" id="wrtieB">Write</a>
+		<%} else{ %>
+		<%} %>
 </div>
 
 

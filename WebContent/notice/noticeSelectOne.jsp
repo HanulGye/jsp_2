@@ -1,3 +1,4 @@
+<%@page import="com.hanul.member.MemberDTO"%>
 <%@page import="com.hanul.notice.NoticeDTO"%>
 <%@page import="com.hanul.notice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -270,12 +271,15 @@
 			<tr>
 				<td colspan=2><textarea id="sizeFix" readonly="readonly"><%= nDto.getContent() %></textarea></td>
 			</tr>
+			<%MemberDTO mDto = (MemberDTO)session.getAttribute("member"); %>
+			<%if(mDto!=null && mDto.getId().equals(nDto.getWriter())) { %>
 			<tr>
 				<td colspan=2>
 				<a href="./noticeDeleteProcess.jsp?no=<%=nDto.getNo() %>" class="btn btn-danger" role="button"id="dButton">글 삭제</a>
 				<a href="./noticeUpdateForm.jsp?no=<%=nDto.getNo() %>" class="btn btn-warning" role="button" id="dButton">글 수정</a>
 				</td>
 			</tr>
+			<%} %>
 		</table>
 	</div>
 </div>	

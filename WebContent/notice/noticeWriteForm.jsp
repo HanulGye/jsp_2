@@ -1,3 +1,4 @@
+<%@page import="com.hanul.member.MemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -242,7 +243,8 @@
 			</tr>
 			<tr>
 				<th>Writer</th>
-				<td><input type="text" name="writer"></td>
+				<%MemberDTO mDto = (MemberDTO)session.getAttribute("member"); %>
+				<td><input type="text" name="writer" readonly="readonly" value="<%=mDto.getId() %>"></td>
 			</tr>
 			<tr>
 				<td colspan=2><textarea name="content"></textarea></td>
