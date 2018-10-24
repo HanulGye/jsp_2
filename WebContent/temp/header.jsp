@@ -12,7 +12,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="<%= request.getContextPath() %>/notice/noticeList.jsp">NOTICE</a></li>
+        <li><a href="<%= request.getContextPath() %>/notice2/noticeList.jsp">NOTICE</a></li>
         <li><a href="<%= request.getContextPath() %>/member/memberList.jsp">MEMBER</a></li>
         <li><a href="#portfolio">PORTFOLIO</a></li>
         <li><a href="#pricing">PRICING</a></li>

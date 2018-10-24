@@ -97,6 +97,7 @@ public class MemberDAO {
 		st.setString(1, id);
 		st.setString(2, pw);
 		int result = st.executeUpdate();
+		DBConnector.disConnect(st, con);
 		return result;
 	}
 	
@@ -112,6 +113,7 @@ public class MemberDAO {
 		st.setString(3, mDto.getEmail());
 		st.setString(4, mDto.getId());
 		int result = st.executeUpdate();
+		DBConnector.disConnect(st, con);
 		return result;
 	}
 }

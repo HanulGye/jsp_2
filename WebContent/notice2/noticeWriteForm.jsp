@@ -1,12 +1,10 @@
 <%@page import="com.hanul.member.MemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	MemberDTO sdto = (MemberDTO)session.getAttribute("member");
-%>
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
   <title>Bootstrap Theme Company Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,6 +13,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   
   <style>
   body {
       font: 400 15px Lato, sans-serif;
@@ -193,6 +192,17 @@
         font-size: 150px;
     }
   }
+  
+  .row table, tr, td{
+  	width: 60%;
+  	margin: auto;
+  	
+  }
+  
+  #dButton{
+  	float: right;
+  }
+  
   </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -209,7 +219,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="./notice/noticeList.jsp">NOTICE</a></li>
+        <li><a href="">NOTICE</a></li>
         <li><a href="#services">SERVICES</a></li>
         <li><a href="#portfolio">PORTFOLIO</a></li>
         <li><a href="#pricing">PRICING</a></li>
@@ -221,70 +231,28 @@
 
 <div class="container-fluid">
 	<div class="row">
-		 <form action="./memberUpdateProcess.jsp" method="post">
-		 	<input type="hidden" class="form-control" value="<%=sdto.getId()%>" id="id" name="id">
-		    <div class="form-group">
-		      <label for="pw">PW :</label>
-		      <input type="password" class="form-control" id="pw" placeholder="Enter Pw">
-		    </div>
-		    <div class="form-group">
-		      <label for="pw">PW2 :</label>
-		      <input type="password" class="form-control" id="pw2" placeholder="Enter Pw" name="pw">
-		      
-		    </div>
-		    <div class="form-group">
-		      <label for="name">Name :</label>
-		      <input type="text" value="<%=sdto.getName() %>" class="form-control" id="name"  name="name">
-		    </div>
-		    <div class="form-group">
-		      <label for="email">Email :</label>
-		      <input type="email" value="<%=sdto.getEmail() %>" class="form-control" id="email"  name="email">
-		    </div>
-		    <button type="submit" class="btn btn-default">Update</button>
-		  </form>
+	<a href="./noticeList.jsp" class="btn btn-default active" id="dButton">Previous</a>
+	<form action="./noticeWriteProcess.jsp">
+		<table class="table table-hover">
+			<tr>
+				<th colspan=2 style="text-align: center">공지 글 작성</th>
+			</tr>
+			<tr>
+				<th>Subject</th>
+				<td><input type="text" name="subject"></td>
+			</tr>
+			<tr>
+				<th>Writer</th>
+				
+				<td><input type="text" name="writer" readonly="readonly" value="<%=mDto.getId() %>"></td>
+			</tr>
+			<tr>
+				<td colspan=2><textarea name="content"></textarea></td>
+			</tr>
+			<tr>
+				<td><button type="submit" class="btn btn-warning active" id="dButton">Write</button></td>
+			</tr>
+		</table>
+	</form>
 	</div>
-		
-</div>
-	
-
-
-<script>
-$(document).ready(function(){
-  // Add smooth scrolling to all links in navbar + footer link
-  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
-    // Make sure this.hash has a value before overriding default behavior
-    if (this.hash !== "") {
-      // Prevent default anchor click behavior
-      event.preventDefault();
-
-      // Store hash
-      var hash = this.hash;
-
-      // Using jQuery's animate() method to add smooth page scroll
-      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
-      $('html, body').animate({
-        scrollTop: $(hash).offset().top
-      }, 900, function(){
-   
-        // Add hash (#) to URL when done scrolling (default click behavior)
-        window.location.hash = hash;
-      });
-    } // End if
-  });
-  
-  $(window).scroll(function() {
-    $(".slideanim").each(function(){
-      var pos = $(this).offset().top;
-
-      var winTop = $(window).scrollTop();
-        if (pos < winTop + 600) {
-          $(this).addClass("slide");
-        }
-    });
-  });
-})
-</script>
-
-
-</body>
-</html>
+</div>			

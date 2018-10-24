@@ -10,19 +10,21 @@
 	sdto.setEmail(request.getParameter("email"));
 	MemberDAO sdao = new MemberDAO();
 	int result = sdao.update(sdto);
+	String s = "Update Fail";
+	String path = "./memberList.jsp";
+	
 	if(result>0){
-		MemberDTO k = (MemberDTO)session.getAttribute("");
+		s = "Update Success";
+		MemberDTO k = (MemberDTO)session.getAttribute("member");
 		k.setName(sdto.getName());
 		k.setEmail(sdto.getEmail());
-		response.sendRedirect("./memberList.jsp");
-	} else {
-		String s = "Update Fail";
-		String path = "./memberList.jsp";
-		request.setAttribute("message", s);
-		request.setAttribute("path", path);
-		RequestDispatcher view = request.getRequestDispatcher("../common/result.jsp");
-		view.forward(request, response);
+		//response.sendRedirect("./memberList.jsp");
 	}
+	
+	request.setAttribute("message", s);
+	request.setAttribute("path", path);
+	RequestDispatcher view = request.getRequestDispatcher("../common/result.jsp");
+	view.forward(request, response);
 %>    
 <!DOCTYPE html>
 <html>

@@ -7,6 +7,8 @@
 	mDto.setId(request.getParameter("id"));
 	mDto.setPw(request.getParameter("pw"));
 	String remember = request.getParameter("remember");
+	
+	//cookie에 id 기억할건지 아닌지에 따른 처리
 	if(remember != null){
 		Cookie c = new Cookie("remember", mDto.getId());	//이름(String)과 값(String)
 		c.setMaxAge(60*60*24*365);
@@ -16,8 +18,10 @@
 		c.setMaxAge(0);
 		response.addCookie(c);
 	}
+	
 	MemberDAO sdao = new MemberDAO();
 	mDto = sdao.selectOne(mDto);
+	
 	String result = "Login Fail";
 	String path = "./memberLogin.jsp";
 	if(mDto != null){
