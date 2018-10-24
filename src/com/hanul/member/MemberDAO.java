@@ -68,6 +68,50 @@ public class MemberDAO {
 	}
 	
 	//selectOne
+	public MemberDTO selectOne(MemberDTO mDTO) throws Exception{
+		Connection con = DBConnector.getConnect();
+		String sql = "SELECT * FROM member WHERE id=? and pw=?";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, mDTO.getId());
+		st.setString(2, mDTO.getPw());
+		ResultSet rs = st.executeQuery();
+		MemberDTO memberDTO = null;
+		if(rs.next()) {
+			memberDTO = new MemberDTO();
+			memberDTO.setId(rs.getString("id"));
+			memberDTO.setPw(rs.getString("pw"));
+			memberDTO.setName(rs.getString("name"));
+			memberDTO.setEmail(rs.getString("email"));
+			memberDTO.setKind(rs.getString("kind"));
+			memberDTO.setClassMate(rs.getString("classMate"));
+		}
+		DBConnector.disConnect(rs, st, con);
+		return memberDTO;
+		
+	}
 	//delete
+	public int delete(String id, String pw) throws Exception{
+		Connection con = DBConnector.getConnect();
+		String sql = "DELETE member WHERE id=? AND pw=? ";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, id);
+		st.setString(2, pw);
+		int result = st.executeUpdate();
+		return result;
+	}
+	
+	
 	//update
+	public int update(MemberDTO mDto) throws Exception{
+		Connection con = DBConnector.getConnect();
+		String sql = "update member set pw=?, name=?, email=? "
+				+ "where id=?";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, mDto.getPw());
+		st.setString(2, mDto.getName());
+		st.setString(3, mDto.getEmail());
+		st.setString(4, mDto.getId());
+		int result = st.executeUpdate();
+		return result;
+	}
 }

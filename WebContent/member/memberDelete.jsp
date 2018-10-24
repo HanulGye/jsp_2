@@ -1,72 +1,12 @@
 <%@page import="com.hanul.member.MemberDTO"%>
-<%@page import="java.util.List"%>
-<%@page import="com.hanul.member.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%
-	int curPage = 1;
-	String kind = "";
-	String search = "";
-	
-	kind = request.getParameter("kind");
-	if(kind==null || kind.equals("")){
-		kind = "id";
-		
-	}
-	
-	search = request.getParameter("search");
-	if(search==null){
-		search = "";
-		
-	}
-
-	try{
-	curPage = Integer.parseInt(request.getParameter("curPage"));
-	} catch(Exception e){
-		
-	}		
-	
-	//1. startRow, lastRow 구하기
-	int perPage = 10;
-	int lastRow = curPage*perPage;
-	int startRow = (curPage-1)*perPage;
-	
-	MemberDAO memberDAO = new MemberDAO();
-	List<MemberDTO> ar = memberDAO.selectList(startRow, lastRow, kind, search);
-	
-	//2. paging 처리
-	
-	//1) 전체 갯수
-	int totalCount = memberDAO.getCount(kind, search);
-	//2) 전체 페이지 갯수
-	int totalPage = totalCount/perPage;
-	if(totalCount%10 != 0){
-		totalPage++;
-	}
-	//3) 전체 블럭 수
-	int perBlock = 5;
-	int totalBlock = totalPage/perBlock;
-	if(totalPage%perBlock != 0){
-		totalBlock++;
-	}
-	//4) curPage 이용, curBlock 번호 구하기
-	int curBlock = curPage/perBlock;
-	if(curPage%perBlock != 0){
-		curBlock++;
-	}
-	// 5) curBlock 이용, startNum, lastNum 구하기
-	int lastNum = curBlock*perBlock;
-	int startNum = (curBlock-1)*perBlock+1;
-	// 6) curBlock이 마지막 block(totalBlock)일때
-	if(curBlock == totalBlock){
-		lastNum = totalPage;
-	}
-%>    
+	MemberDTO mDto = (MemberDTO)session.getAttribute("member");
+%>
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Theme Made By www.w3schools.com - No Copyright -->
   <title>Bootstrap Theme Company Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -75,7 +15,6 @@
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   
   <style>
   body {
       font: 400 15px Lato, sans-serif;
@@ -254,12 +193,6 @@
         font-size: 150px;
     }
   }
-  
-  .row table, tr, td{
-  	width: 60%;
-  	margin: auto;
-  	
-  }
   </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -276,7 +209,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="">NOTICE</a></li>
+        <li><a href="./notice/noticeList.jsp">NOTICE</a></li>
         <li><a href="#services">SERVICES</a></li>
         <li><a href="#portfolio">PORTFOLIO</a></li>
         <li><a href="#pricing">PRICING</a></li>
@@ -288,85 +221,64 @@
 
 <div class="container-fluid">
 	<div class="row">
-	
-			<div>
-				<form class="form-inline" action="./memberList.jsp">
-					<div class="form-group">
-						<select class="form-control" id="sel1" name="kind">
-							<option>ID</option>
-							<option>NAME</option>
-						</select> <input type="text" class="form-control" id="search"
-							placeholder="Enter search" name="search">
-					</div>
-					<button type="submit" class="btn btn-default">Submit</button>
-				</form>
-			</div>
-	
-	
-	
-		<table class="table table-hover">
-			<tr>
-				<th colspan=4 style="text-align: center">회원정보</th>
-			</tr>
-			<tr>
-				<th>NUM</th>
-				<th>ID</th>
-				<th>NAME</th>
-				<th>KIND</th>
-			</tr>
-			  
-			<%for(int i =0; i<ar.size();i++){ %>
-			<tr>
-				<td><%=i+1 %></td>
-				<td><%=ar.get(i).getId() %></td>
-				<td><%=ar.get(i).getName() %></td>
-				<td><%=ar.get(i).getKind() %></td>
-			</tr>
-			<%} %>
-			
-		</table>
+		 <form action="./memberDeleteProcess.jsp" method="post">
+		 	<div class="form-group">
+		      <label for="id">ID :</label>
+		      <input type="text" class="form-control" id="id" placeholder="Enter id" name="id">
+		    </div>
+		    <div class="form-group">
+		      <label for="pw">PW :</label>
+		      <input type="password" class="form-control" id="pw" placeholder="Enter Pw">
+		    </div>
+		    <div class="form-group">
+		      <label for="pw">PW2 :</label>
+		      <input type="password" class="form-control" id="pw2" placeholder="Enter Pw" name="pw">
+		
+		    </div>
+		    <button type="submit" class="btn btn-default">Delete</button>
+		  </form>
 	</div>
-	</div>	
+		
+</div>
+	
 
-	<div class="container-fluid">
-	<div class="row">	
-		<ul class="pagination">
-		<li><a href="./memberList.jsp?curPage=<%=1%>&kind=<%=kind%>&search=<%=search%>"><span class="glyphicon glyphicon-backward"></span></a></li>
-		<%if (curBlock > 1) { %>
-		<li><a href="./memberList.jsp?curPage=<%=startNum-1%>&kind=<%=kind%>&search=<%=search%>"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-		<%} %>
-		<%for(int i=startNum; i<=lastNum; i++) {%>
-		<li><li><a href="./memberList.jsp?curPage=<%=i%>&kind=<%=kind%>&search=<%=search%>"><%=i%></a></li>
-		<%} %>
-		<%if (curBlock < totalBlock) { %>
-		<li><a href="./memberList.jsp?curPage=<%=lastNum + 1%>&kind=<%=kind%>&search=<%=search%>"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-		<%} %>
-		<li><a href="./memberList.jsp?curPage=<%=totalPage%>&kind=<%=kind%>&search=<%=search%>"><span class="glyphicon glyphicon-forward"></span></a></li>
-		</ul>
-	</div>
-	</div>
 
-	<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-1">
-			<a href="./memberList.jsp" class="btn btn-primary">Write</a>
-		</div>
-	</div>
-	<%
-		MemberDTO mDto = (MemberDTO)session.getAttribute("member");
-	%>
-	<div class="row">
-	<%if(mDto != null){ %>
-		<h3><%= mDto.getId() %> 님 환영합니다</h3>
-		<a href="./memberLogout.jsp">LogOut</a>
-		<a href="./memberMyPage.jsp">MyPage</a>
-	<%} else{ %>
-		<a href="./memberJoin.jsp">Join</a>
-		<a href="./memberLogin.jsp">Login</a>
-	<%} %>
-	</div>
-	</div>
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
 
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+  
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+</script>
 
 
 </body>
